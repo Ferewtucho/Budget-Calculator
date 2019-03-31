@@ -71,7 +71,7 @@ var UIController = (function() {
       return {
         type: document.querySelector(DOMstrings.inputType).value, // will be either inc or exp
         description: document.querySelector(DOMstrings.inputDesc).value,
-        value: document.querySelector(DOMstrings.inputValue).value
+        value: parseFloat(document.querySelector(DOMstrings.inputValue).value)
       };
     },
 
@@ -156,21 +156,28 @@ var controller = (function(bugetCtrl, UICtrl) {
     });
   };
 
+  var updateBudget = function() {
+    // 1. Calculate the buget
+    // 2. return the buget
+    // 3. Display the buget on the UI
+  };
+
   var ctrlAddItem = function() {
     var input, newItem;
     // 1. Get the filed input data
     input = UICtrl.getinput();
 
-    // 2. Add the item to the buget controller
-    newItem = bugetCtrl.addItem(input.type, input.description, input.value);
-    // 3. Add the item to the UI
-    UIController.addListItem(newItem, input.type);
-    // 4. Clear the field
-    UIController.clearField();
+    if (input.description !== "" && !isNaN(input.value) && input.value > 0) {
+      // 2. Add the item to the buget controller
+      newItem = bugetCtrl.addItem(input.type, input.description, input.value);
+      // 3. Add the item to the UI
+      UIController.addListItem(newItem, input.type);
+      // 4. Clear the field
+      UIController.clearField();
 
-    // 5. Calculate the buget
-
-    // 6. Display the buget on the UI
+      // 5. Calculate and update buget
+      updateBudget();
+    }
   };
 
   return {
